@@ -1,0 +1,19 @@
+
+1. 注册表  修改 HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Terminal Server\WinStations\RDP-Tcp    PortNumber为49527
+
+2. windows防火墙-高级设置-入站规 加上49527端口
+
+3. 我的电脑-管理-服务和应用程序-服务  启动Remote Desktop开头的3或4个服务
+
+4. 我的电脑-属性-高级系统设置-远程  勾选'允许运行任意版本...'
+
+5. 重启电脑
+
+
+
+
+
+
+
+
+
