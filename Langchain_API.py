@@ -3,6 +3,12 @@ from pydantic import BaseModel
 import requests
 import json
 import uvicorn
+from datetime import datetime
+import pandas as pd
+
+from logging_module import LoggingManager  
+  
+
 
 class InputMessage(BaseModel):
     content: str
@@ -15,7 +21,8 @@ knowledge_dict = {
 
     "规章制度知识库": "guizhangzhidu",
     "安全规程知识库":"angui",
-    "科技项目查重知识库":"keji"
+    "科技项目查重知识库":"keji",
+    "财务税政知识库":"caiwu"
 }
 
 #通过正则取出引用文档名称
@@ -54,7 +61,7 @@ def chat_knowledge(query,knowledge_name):
     try:
         answer = result["answer"]
     except Exception as e:
-        print("代码报错，没有找到问题对应的知识库")
+        print("没有找到问题对应的知识库")
         result = chat_llm(query)
         return result
     if "无法" in answer:
@@ -79,7 +86,8 @@ def classify(query):
     "你是一名人工智能助手，下面是不同的知识库及其描述，你需要根据‘{query}’话，分析它的语义并选择合适的知识库。\
     “规章制度知识库”：该知识库中包含国家电网公司中各个部门的管理规章制度以及管理办法，通过该知识库我们可以确保每个人都了解并遵守相应的规定。\
     “安全规程知识库”: 该知识库中包含国家电网公司中，关于输电、配电、变电等方面的安全规程，通过该知识库我们了解并遵守相应的安全规程，从而预防和减少事故的发生。\
-    “科技项目查重知识库”：该知识库中包含近五年（2019年至2023年）创建或申请的科技类项目，通过该知识库我们可以了解这些项目的基本信息。\
+    “科技项目查重知识库”:该知识库中包含近五年(2019年至2023年)创建或申请的科技类项目，通过该知识库我们可以了解这些项目的基本信息。\
+    “财务税政知识库”:该知识库中包含了与财务和税政相关的各种专业知识。这个知识库不仅包含了最新的税收法规和财务准则，还包括了详细的税务筹划信息和建议。\
     输出结果中必须输出对应的知识库名称，例如“规章制度知识库”，“安全规程知识库”,不需要有额外的信息。请注意如果没有合适的知识库，请用你自己的能力来回答'{query}'这句话。\
     【用户问题】{query}
     """
@@ -89,18 +97,10 @@ def classify(query):
     'Content-Type': 'application/json'
     }
     data = {"query": content}
-    # print(data)
     response = requests.post(url, headers=headers, json=data)
-    # print('get classify answer')
-    # print(response.text)
+
     classify_results = response.text
 
-    knowledge_dict = {
-
-    "规章制度知识库": "guizhangzhidu",
-    "安全规程知识库":"angui",
-    "科技项目查重知识库":"keji"
-}
     for key in knowledge_dict.keys():
         if key in classify_results:
             knowledge_name = key
@@ -117,6 +117,13 @@ def classify_and_chat(item:InputMessage):
     print("本次执行调用【知识库】为:",knowledge_base_name)
     print("本次执行的【回答结果】为："'\n',answer)
     print(30*"*","本次知识问答完毕",30*"*")
+
+    # 创建日志管理器实例  
+ 
+    logging_manager = LoggingManager('classify_and_chat.log') 
+    logging_manager.setup_handler()  # 仅在第一次使用时调用此方法来设置日志处理器   
+    logging_manager.log_input(item.content)  
+    logging_manager.log_answer(answer.encode('utf-8').decode('utf-8'))
     return answer
 
 if __name__ == '__main__':
