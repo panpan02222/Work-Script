@@ -1,0 +1,19 @@
+train: 
+val:
+test:
+
+nc: 11
+
+names: [
+  "xiangtifahuang",
+  "xiangtixiushi",
+  "xiangtiposun",
+  "wumen",
+  "wuxiang",
+  "youfeng",
+  "wufeng",
+  "youkaiguangai",
+  "wukaiguangai",
+  "youtoushichuanggai",
+  "wutoushichuanggai"
+]

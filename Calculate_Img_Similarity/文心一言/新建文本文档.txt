@@ -1,0 +1,47 @@
+import os  
+import cv2  
+import numpy as np  
+from PIL import Image  
+from sklearn.metrics.pairwise import cosine_similarity  
+  
+# 设定图片预处理参数  
+resize_size = (224, 224)  # 调整图片大小  
+num_features = 1000  # 提取的特征维度  
+  
+# 设定相似度阈值  
+similarity_threshold = 0.95  
+  
+# 设定目标文件夹路径  
+target_folder = 'path_to_target_folder'  
+  
+# 获取当前文件夹下所有的图片文件  
+image_files = [f for f in os.listdir() if f.endswith('.jpg') or f.endswith('.png')]  
+  
+# 提取图片特征并存储到列表中  
+features = []  
+for image_file in image_files:  
+    image = Image.open(image_file).convert('RGB')  
+    image = image.resize(resize_size)  
+    image_np = np.array(image) / 255.0  # 将图片归一化到[0, 1]范围  
+    feature = np.mean(image_np, axis=(0, 1))  # 提取特征向量  
+    features.append(feature)  
+  
+# 比较图片特征的相似度并去重  
+processed_files = set()  # 记录已处理过的文件名  
+for i in range(len(features)):  
+    if i in processed_files:  
+        continue  # 如果已经处理过，跳过当前文件  
+    processed_files.add(i)  # 将当前文件标记为已处理  
+    for j in range(i+1, len(features)):  
+        if j in processed_files:  
+            continue  # 如果已经处理过，跳过当前文件  
+        similarity = cosine_similarity(features[i], features[j])[0][0]  # 计算特征向量的余弦相似度  
+        if similarity > similarity_threshold:  # 如果相似度超过阈值，则删除其中一个文件  
+            os.remove(image_files[j])  # 删除其中一个文件，可以根据需要调整逻辑  
+            image_files.remove(image_files[j])  # 更新文件列表  
+            processed_files.add(j)  # 将已处理的文件加入集合中，避免重复处理  
+            break  # 如果找到一个匹配的，就跳出内层循环，继续下一个文件的比较  
+    else:  # 如果外层循环结束都没有找到匹配的文件，则复制该文件到目标文件夹  
+        img = Image.open(image_files[i]).convert('RGB')  
+        img = img.resize(resize_size)  
+        img.save(os.path.join(target_folder, os.path.basename(image_files[i])))

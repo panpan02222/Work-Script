@@ -2,126 +2,129 @@ from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 import requests
 import json
+import uvicorn
+from datetime import datetime
+import pandas as pd
 
-class Item(BaseModel):
+from logging_module import LoggingManager  
+  
+
+
+class InputMessage(BaseModel):
     content: str
 
-wenxinyiyan_url = 'http://127.0.0.1:7861/chat/chat'
-knowledge_chat_url = "http://localhost:7861/chat/knowledge_base_chat"
+anquan_words = ["安全","安规","登高","危险","断电"]
 
+wenxinyiyan_url = 'http://192.162.1.117:7861/chat/chat'
+knowledge_chat_url = "http://192.162.1.117:7861/chat/knowledge_base_chat"
 knowledge_dict = {
-    # "安规知识问答": "angui",
-    # "科技项目立项查重": "keji",
-    # "调度应急处置": "diaodu",
-    "通用规章制度": "zhidu",
-    # "电网主设备技术标准": "jishu",
-    # "营销2.0系统使用手册": "yingxiao"
+
+    "规章制度知识库": "guizhangzhidu",
+    "安全规程知识库":"angui",
+    "科技项目查重知识库":"keji",
+    "财务税政知识库":"caiwu"
 }
 
-knowledge_name_list = [
-    # "安规知识问答",
-    # "科技项目立项查重",
-    # "调度应急处置",
-    # "信息通信专业通用制度",
-    # "电网主设备技术标准",
-    # "营销2.0系统使用手册"
-]
+#通过正则取出引用文档名称
+def get_doc_name(docs):
+    import re
+    results = []
+    for doc in docs:
+        matches = re.findall(r'\[(.*?)\]',doc)
+        if len(matches) >= 2:
+            results.append(matches[1])
+    return results
+
+#获取知识库的中文名称
+def get_keys_from_value(d,value):
+    keys=[]
+    for k,v in d.items():
+        if v ==value:
+            keys.append(k)
+    return keys
 
 app = FastAPI()
-#直接与大模型对话
-def chat_wenxin(query):
+#無法回答的情況直接調用大模型
+def chat_llm(query):
     url = wenxinyiyan_url
-    headers = {
-    'accept': 'application/json',
-    'Content-Type': 'application/json'
-    }
-    data = {
-    "model": "qianfan-api",
-    "messages": [
-    {
-    "role": "user",
-    "content": query
-    }
-    ],
-    "temperature": 0.9,
-    "n": 1,
-    "max_tokens": 2048,
-    "stop": [],
-    "stream": False,
-    "presence_penalty": 0,
-    "frequency_penalty": 0
-    }
-    response = requests.post(url, headers=headers, json=data)
+    data = {"query":query,"pormpt":"llm_chat"}
+    response = requests.post(url, json=data)
     result = response.text
     return result
 
+#调用知识库问答
+def chat_knowledge(query,knowledge_name):
+    url = knowledge_chat_url
+    data={"query":query,"knowledge_base_name":knowledge_name}
+    response = requests.post(url, json=data)
+    result = response.json()
+    try:
+        answer = result["answer"]
+    except Exception as e:
+        print("没有找到问题对应的知识库")
+        result = chat_llm(query)
+        return result
+    if "无法" in answer:
+        result = chat_llm(query)
+        # result = result + "以上回答没有借助知识库中的内容，仅供参考。"
+        return result
+    #增加判断是否出现引用文档(当前设定为3)
+    doc_len = len(result["docs"])
+    print("引用文档数量为：",doc_len)
+    if doc_len > 0:
+        docs_names = get_doc_name(result["docs"])
+        print("引用文档为：",docs_names)
+    if doc_len == 0:
+        return answer
+    Answer = answer +f"\n以上内容来自{get_keys_from_value(knowledge_dict,knowledge_name)}"
+    return Answer
+
 #问题分类器
 def classify(query):
-    # content = f'你是一个文本分类器,目前共有“安规知识问答”、“科技项目立项查重”、“调度应急处置”，“信息通信专业通用制度”、“电网主设备技术标准”5类本地知识库。你的作用是将“{query}”这句话进行分类,最终告诉我这句话应属于哪个知识库,仅告诉我知识库的名称即可。最终回答的结果只能有“安规知识问答”、“科技项目立项查重”、“调度应急处置”，“信息通信专业通用制度”、“电网主设备技术标准”这5项中的一项。不允许出现多余的描述信息。'
-    #问题分类提示词构建——方案一:
-    content_0 = f"你是一个文本分类器，可以将输入的句子进行分类，\
-                目前有6个类别，分别为“安规知识问答”、“科技项目立项查重”、“调度应急处置”、“信息通信专业通用制度”、“电网主设备技术标准”和“营销2.0系统使用手册”。\
-                请分析“{query}”这句话，并告诉我它属于哪个分类。回答格式为“{query}”属于“某某”类。不要有多余的描述信息。"
-    content_1 = f"我想要你帮我对用户输入的{query}进行判断。如果这个{query}的语义属于“规章制度”中的内容，请直接输出“规章制度”这4个文字。\
-                否则请你用自己的能力来回答{query}这句话。并告诉用户“以上回答没有借助知识库中的内容，仅供参考”。"
-
+    print(30*"*","启动问题分类器",30*"*")
+    content = f"""
+    "你是一名人工智能助手，下面是不同的知识库及其描述，你需要根据‘{query}’话，分析它的语义并选择合适的知识库。\
+    “规章制度知识库”：该知识库中包含国家电网公司中各个部门的管理规章制度以及管理办法，通过该知识库我们可以确保每个人都了解并遵守相应的规定。\
+    “安全规程知识库”: 该知识库中包含国家电网公司中，关于输电、配电、变电等方面的安全规程，通过该知识库我们了解并遵守相应的安全规程，从而预防和减少事故的发生。\
+    “科技项目查重知识库”:该知识库中包含近五年(2019年至2023年)创建或申请的科技类项目，通过该知识库我们可以了解这些项目的基本信息。\
+    “财务税政知识库”:该知识库中包含了与财务和税政相关的各种专业知识。这个知识库不仅包含了最新的税收法规和财务准则，还包括了详细的税务筹划信息和建议。\
+    输出结果中必须输出对应的知识库名称，例如“规章制度知识库”，“安全规程知识库”,不需要有额外的信息。请注意如果没有合适的知识库，请用你自己的能力来回答'{query}'这句话。\
+    【用户问题】{query}
+    """
     url = wenxinyiyan_url
     headers = {
     'accept': 'application/json',
     'Content-Type': 'application/json'
     }
-    wenxinyiyan_data = {"query": query, "prompt": "llm_chat"}
-    response = requests.post(url, headers=headers, json=wenxinyiyan_data)
-    knowledge_name = response.text
-    #正则匹配方案
-    # knowledge_name_re = re.findall(r'“(.+?)”', knowledge_name)[1]
+    data = {"query": content}
+    response = requests.post(url, headers=headers, json=data)
 
+    classify_results = response.text
 
-
-    #文字相同匹配方案
     for key in knowledge_dict.keys():
-        if key in knowledge_name:
-            knowledge_name_str = key
+        if key in classify_results:
+            knowledge_name = key
+            knowledge_name_str = knowledge_name.replace(key,knowledge_dict[key])
+            print("知识库的名称经过问题分类判断后,得出用户的问题属于:",knowledge_name_str)
             return knowledge_name_str
-        
-        else:
-            return response.text
-
-    # return knowledge_name_str
-
-
 
 @app.post("/classify_and_chat")
-async def classify_and_chat(item: Item):
+def classify_and_chat(item:InputMessage):
 
-    
-    Knowledge_base_name_or_Anwser = classify(item.content)
-    print("======================")
-    print(knowledge_dict.keys())
-    if Knowledge_base_name_or_Anwser not in knowledge_dict.keys():
-        return Knowledge_base_name_or_Anwser
+    knowledge_base_name = classify(item.content)     
+    answer = chat_knowledge(item.content,knowledge_base_name)
+    print("本次执行【输入内容】为:",item.content)
+    print("本次执行调用【知识库】为:",knowledge_base_name)
+    print("本次执行的【回答结果】为："'\n',answer)
+    print(30*"*","本次知识问答完毕",30*"*")
 
-    url = knowledge_chat_url
+    # 创建日志管理器实例  
+ 
+    logging_manager = LoggingManager('classify_and_chat.log') 
+    logging_manager.setup_handler()  # 仅在第一次使用时调用此方法来设置日志处理器   
+    logging_manager.log_input(item.content)  
+    logging_manager.log_answer(answer.encode('utf-8').decode('utf-8'))
+    return answer
 
-    headers = {
-        'accept': 'application/json',
-        'Content-Type': 'application/json'
-    }
-    
-    data = {
-        "query": item.content,
-        "knowledge_base_name": Knowledge_base_name_or_Anwser,
-        "top_k": 3,
-        "score_threshold": 0.85,
-        "history": [],
-        "stream": False,
-        "model_name": "qianfan-api",
-        "temperature": 0.7,
-        "prompt_name": "knowledge_base_chat",
-        "local_doc_url": False
-    }
-
-    response = requests.post(url, headers=headers, json=data)
-    result = response.json()
-    return result['answer']
-
+if __name__ == '__main__':
+   uvicorn.run("server:app",host='192.162.1.117',port=2222,debug=True,log_level=ERROE)

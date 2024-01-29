@@ -1,0 +1,46 @@
+import os
+import shutil
+import hashlib
+
+def calculate_hash(file_path):
+    hash_md5 = hashlib.md5()
+    with open(file_path, "rb") as f:
+        for chunk in iter(lambda: f.read(4096), b""):
+            hash_md5.update(chunk)
+    return hash_md5.hexdigest()
+
+def copy_images(src_directory, dest_directory):
+    device_code_mapping = {}
+
+    for filename in os.listdir(src_directory):
+        file_path = os.path.join(src_directory, filename)
+
+        if os.path.isfile(file_path):
+            # 提取设备编码
+            device_code = filename.split('_')[0]
+
+            # 计算哈希值
+            file_hash = calculate_hash(file_path)
+
+            # 如果设备编码不在映射表中，则添加
+            if device_code not in device_code_mapping:
+                device_code_mapping[device_code] = set()
+
+            # 如果哈希值不在设备编码对应的图片集合中，则复制图片
+            if file_hash not in device_code_mapping[device_code]:
+                device_code_mapping[device_code].add(file_hash)
+
+                # 创建设备编码的目录
+                device_directory = os.path.join(dest_directory, device_code)
+                os.makedirs(device_directory, exist_ok=True)
+
+                # 复制图片到设备编码的目录
+                dest_path = os.path.join(device_directory, filename)
+                shutil.copy2(file_path, dest_path)
+
+# 示例用法
+src_directory = r"C:\Users\ASUS\Desktop\111\input"
+dest_directory = r"C:\Users\ASUS\Desktop\111\output"
+
+copy_images(src_directory, dest_directory)
+

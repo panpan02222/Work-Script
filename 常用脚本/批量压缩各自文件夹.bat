@@ -1,0 +1,1 @@
+for /d %%X in (*) do "C:\Program Files (x86)\Trend Micro\OfficeScan Client\7z.exe" a "%%X.zip" "%%X\"

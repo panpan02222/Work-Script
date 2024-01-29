@@ -1,0 +1,81 @@
+import os
+from PIL import Image
+import numpy as np
+import tensorflow as tf
+from annoy import AnnoyIndex
+from hashlib import sha256
+from multiprocessing import Pool
+
+# 定义哈希大小
+HASH_SIZE = 8
+
+def calculate_dhash(image_path):
+    image = Image.open(image_path).convert('L').resize((HASH_SIZE + 1, HASH_SIZE), Image.ANTIALIAS)
+    difference = []
+    for row in range(HASH_SIZE):
+        for col in range(HASH_SIZE):
+            pixel_left = image.getpixel((col, row))
+            pixel_right = image.getpixel((col + 1, row))
+            difference.append(pixel_left > pixel_right)
+    return sha256(bytearray(difference)).hexdigest()
+
+def extract_features(image_path):
+    # 使用预训练的深度学习模型提取特征
+    image = Image.open(image_path)
+    image = np.array(image.resize((224, 224)))  # 假设使用的是ResNet模型
+    image = tf.keras.applications.resnet50.preprocess_input(image)
+    image = np.expand_dims(image, axis=0)
+    model = tf.keras.applications.ResNet50(weights='imagenet', include_top=False)
+    features = model.predict(image)
+    return features.flatten()
+
+def find_duplicates(features, threshold=0.8):
+    # 创建Annoy索引
+    f = 2048  # 假设特征向量大小为2048
+    t = AnnoyIndex(f, 'angular')
+    for i, feature in enumerate(features):
+        t.add_item(i, feature)
+    t.build(10)  # 10棵树
+
+    duplicates = set()
+    for i, feature in enumerate(features):
+        nn = t.get_nns_by_vector(feature, 2)  # 获取最相似的图片
+        for j in nn[1:]:  # 跳过自身
+            if i < j and t.get_distance(i, j) < threshold:
+                duplicates.add(tuple(sorted((i, j))))
+
+    return duplicates
+
+def copy_unique_images(image_paths, target_folder, duplicates):
+    if not os.path.exists(target_folder):
+        os.makedirs(target_folder)
+
+    for i, image_path in enumerate(image_paths):
+        if i not in [idx for group in duplicates for idx in group]:
+            # 如果图片不是重复的，复制到目标文件夹
+            filename = os.path.basename(image_path)
+            target_path = os.path.join(target_folder, filename)
+            # 仅当目标文件不存在时复制，避免覆盖
+            if not os.path.exists(target_path):
+                shutil.copy2(image_path, target_path)
+
+# 使用示例
+image_folder = 'path_to_your_image_folder'
+target_folder = 'path_to_your_target_folder'
+image_paths = [os.path.join(image_folder, f) for f in os.listdir(image_folder) if f.lower().endswith(('.png', '.jpg', '.jpeg', '.bmp'))]
+
+# 计算dhash
+with Pool() as p:
+    dhashes = p.map(calculate_dhash, image_paths)
+
+# 去除完全相同的图片
+unique_image_paths = [image_paths[i] for i, h in enumerate(dhashes) if dhashes.count(h) == 1]
+
+# 提取特征
+features = [extract_features(path) for path in unique_image_paths]
+
+# 查找相似图片
+duplicates = find_duplicates(features)
+
+# 复制去重后的文件到目标文件夹
+copy_unique_images(unique_image_paths, target_folder, duplicates)
