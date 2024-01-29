@@ -1,0 +1,136 @@
+<!DOCTYPE html>  
+<html>  
+<head>  
+  <title>专业问答工具</title>  
+  <style>  
+    body {
+      font-family: 'Microsoft YaHei', sans-serif;
+      /* color: rgb(0, 101, 105); */
+      /* display: flex; */
+      /* justify-content: center; */
+      align-items: flex-start; /* 使用flex-start来允许.links根据内容高度扩展 */
+      /* height: 100vh; */
+      margin: 0;
+      padding: 20px;
+      background-repeat: no-repeat;
+      background-image: url("http://127.0.0.1:5500/Quiz_Tools/static/背景图案.jpg"); /* 您的背景图片的路径 */
+      background-size: cover; /* 背景图片完全填充网页 */
+    }
+    .app {
+      width: 29%; /* 30% 的宽度，以便在容器中容纳三个 */
+      /* height: auto; */ /* 根据内容自动调整高度 */
+      border: 1px solid rgb(0,101,105);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 0.5%; /* 上下边距0.5%，左右边距0.5% */
+      padding: 20px;
+      box-shadow: 0px 0px 10px rgba(0,128,0,0.1);
+      background-color: rgba(255, 255, 255, 0.5);
+    }
+    .center {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .links {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between; /* 确保元素之间的空间分布均匀 */
+      width: 100%; /* 宽度设置为100%，以适应父容器的宽度 */
+      max-width: 1500px; /* 设置最大宽度以容纳三列 */
+    }
+    h1 {
+      color: rgb(0, 101, 105);
+      width: max-content;
+    }
+    h2 {
+      color: rgb(0, 101, 105);
+      vertical-align: center;
+    }
+    .app a {
+      color: #2c3e50;
+      text-decoration: none;
+    }
+  </style> 
+</head> 
+<body> 
+  <div class="center">
+    <h1><strong>专 业 问 答 工 具</strong></h1>
+    <div class="links">
+      <div class="app">
+      <a>
+          <h2 style="text-align: center; font-size: 200%;">
+            <img src="http://127.0.0.1:5500/Quiz_Tools/static/icon/大模型.svg" alt="图标" style="width: 40px; height: 40px; margin-right: 8px;">
+          </h2>
+          <p><b>大语言模型</b></p>
+        </a>
+      </div>
+      <div class="app">
+        <a>
+          <h2 style="text-align: center; font-size: 200%;">
+            <img src="http://127.0.0.1:5500/Quiz_Tools/static/icon/对话.svg" alt="图标" style="width: 40px; height: 40px; margin-right: 8px;">
+          </h2>
+          <p><b>"e点智寻"</b></p>
+        </a>
+      </div>
+      <div class="app">
+        <a>
+          <h2 style="text-align: center; font-size: 200%;">
+            <img src="http://127.0.0.1:5500/Quiz_Tools/static/icon/财务管理.svg" alt="图标" style="width: 40px; height: 40px; margin-right: 8px;">
+          </h2>
+          <p><b>财务税政</b></p>
+        </a>
+      </div>
+      <div class="app"> 
+        <a href="angui.html">
+          <h2 style="text-align: center; font-size: 200%;">
+          <img src="http://127.0.0.1:5500/Quiz_Tools/static\icon\安全帽.svg" alt="图标" style="width: 40px; height: 40px; margin-right: 8px;">
+          </h2>
+          <p><b>安全规程</b></p>
+        </a>
+      </div>              
+      <div class="app">
+        <a>
+          <h2 style="text-align: center; font-size: 200%;">
+          <img src="http://127.0.0.1:5500/Quiz_Tools/static\icon/规章制度.svg" alt="图标" style="width: 38px; height: 38px; margin-right: 8px;">
+          </h2>
+          <p><b>通用规章制度</b></p>
+        </a>
+      </div>
+      <div class="app">
+        <a>
+          <h2 style="text-align: center; font-size: 200%;">
+          <img src="http://127.0.0.1:5500/Quiz_Tools/static\icon/调度平台.svg" alt="图标" style="width: 40px; height: 40px; margin-right: 8px;">
+          </h2>
+          <p><b>雄安调度专业</b></p>
+        </a>
+      </div>
+      <div class="app">
+        <a>
+          <h2 style="text-align: center; font-size: 200%;">
+          <img src="http://127.0.0.1:5500/Quiz_Tools/static/icon/调度.svg" alt="图标" style="width: 38px; height: 38px; margin-right: 8px;">
+          </h2>
+          <p><b>保定调度专业</b></p>
+        </a>
+      </div>
+      <div class="app">
+        <a>
+          <h2 style="text-align: center; font-size: 200%;">
+          <img src="http://127.0.0.1:5500/Quiz_Tools/static/icon/检修管理_检修记录.svg" alt="图标" style="width: 40px; height: 40px; margin-right: 8px;">
+          </h2>
+          <p><b>电力行业主设备检修</b></p>
+        </a>
+      </div>
+      <div class="app">
+        <a>
+          <h2 style="text-align: center; font-size: 200%;">
+            <img src="http://127.0.0.1:5500/Quiz_Tools/static/icon/kefu.ico" alt="图标" style="width: 40px; height: 40px; margin-right: 8px;">
+          </h2>
+          <p><b>营销2.0系统使用手册</b></p>
+        </a>
+      </div>            
+    </div>
+  </div>
+</body>
+</html>
