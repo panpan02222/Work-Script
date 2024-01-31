@@ -1,0 +1,108 @@
+接收一个镜像后，先加载
+docker load 压缩包.
+docker load -i 压缩包 -t 镜像名称:版本号v1
+
+查看所有镜像
+docker images
+
+启动容器
+docker run -it -d --name="容器名称" --p
+-i:以交互模型运行容器，通常与-t同时使用;
+-d:后台运行容器，并返回容器ID
+--name="容器名称"
+--runtime=nvidia -e NVIDIA_VISIBLE_DEVICE=1 :指定启动显卡号
+--p:指定端口映射，主机（宿主）端口：容器端口
+[sudo docker run -it 镜像名称 /bin/bash]
+
+###########################################FINISH-VERSION############################
+docker run -it -d -p 10016:9147 --name 容器名称 --runtime=nvidia -e NVIDIA_VISIBLE_DEVICES=3 镜像名称 bash
+查看所有容器
+docker ps -a
+
+开启容器
+docker start
+
+进入容器
+docker exec -it 容器名称 bash
+
+查看环境
+conda env list
+
+在OSX/Linux 上使用 source activate my_env 进入环境
+source activate 环境名称
+
+之后操作文件即可
+
+退出容器
+exit
+
+停止容器
+docker stop 容器名称
+
+删除容器
+docker rm 容器名称
+
+在容器内新增文件，并创建新的镜像
+docker cp 本地路径/文件名称 容器名称：容器内路径
+exit    #退出容器
+docker   commit -m="描述信息" -a="作者" 容器id 目标镜像名： [TAG]
+
+查看容器信息
+docker inspect 容器ID
+
+查看所有镜像
+kubectl get pods -A
+
+进入容器
+kubectl exec -it BML副本名称(服务名) bash -n 对应的存储源(上调命令查的)
+
+删除pods
+kubectl delete pod BML副本名称 -n 对应的存储元 bash
+
+从pod中复制文件到本地服务器上
+kubectl cp -n 存储源 服务名：路径 本地路径
+
+查看pod详细信息
+kubectl describe pod pod-name
+
+删除镜像#必须删除容器再删除镜像
+docker rmi 镜像ID（前三位）
+
+删除conda环境
+conda remove -n 环境名 --all
+
+查看正在运行的python脚本
+ps -ef |grep python
+
+查看容器内日志
+kubectl logs pod名称 容器名称 -n 命名空间
+
+查看控制器
+kubectl get deployments.apps -n 命名空间
+删除控制器
+kubectl delete deployments.apps pod名称  -n 命名空间
+
+下载镜像到本地
+docker save 镜像ID：版本 -o 路径/保存的镜像名称.tar
+
+安装低版本 pip install setuptools==56.1.0
+
+df -h查看所有磁盘占用
+overlay 显示物理地址
+
+改镜像名字
+docker tag 旧名字 新名字
+改容器名词
+docker rename 旧名字 新名字
+
+将日志输入到log中
+nohup python main.py >log.log 2>&1 &
+tail -f log.log
+
+#建立软链接
+ln  -s   [源文件]   [软链接文件]
+
+#排查ip后缀
+curl `kubectl get svc -n bfe| fgrep ilb-controller | awk '{print $3}'`:8086/v1/third-party/integration/bml/services?content=config  -H  "Authorization:Token H9zUjETTd3oajBaCJdoYNiynzfEs"
+#删垃圾
+curl -X DELETE http://`kubectl get svc -n bfe|fgrep ilb-controller | awk '{print $3}'`:8086/v1/third-party/integration/bml/asi-v8874znn6ph51iiu -H  "Authorization:Token H9zUjETTd3oajBaCJdoYNiynzfEs"

@@ -1,0 +1,8 @@
+1.Notebook建模中将代码和模型上传，使用Codelab中测试好
+2.先将模型网络接口测试正常（Web_test.py)
+3.本地测试 使用模型自己写入参，3个入参配合样本库(mode_test.py)
+4.测试完成后，点【镜像】-->【构建镜像】-->【notebook建模导出】--配置名字
+
+results创建先array、之后object。
+
+/usr/local/python3/bin/gunicorn -w 1 --threads 1 --timeout 100 -b 0.0.0.0: 9147main:app

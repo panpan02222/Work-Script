@@ -1,0 +1,20 @@
+Shell 是一种特别的交互式命令行接口，常见的有 Bash（Linux、MacOS）和 Command Prompt（Windows），以下是一些常用的 Bash Shell 操作命令：
+
+pwd：打印当前工作目录。
+ls：列出当前目录下的所有文件和文件夹（不包括以.开头的隐藏文件）。
+cd：进入指定目录，如 “cd /usr/local”。
+mkdir：新建一个目录，如 “mkdir dir_name”。
+touch：新建一个空文件，如 “touch file_name”。
+cp：复制文件或目录，如 “cp file1 file2”。
+mv：移动文件或目录，如 “mv file1 file2”。
+rm：删除文件或目录，如 “rm file_name” 或者 “rm -r dir_name”。
+cat：查看文件内容，如 “cat file_name”。
+grep：在文件中查找指定的文本，如 “grep ‘some text’ file_name”。
+top：查看进程信息。
+ps：列出系统中当前运行的进程信息。
+kill：结束一个进程，如 “kill PID” 或者 “killall process_name”。
+history：查看历史命令记录，如 “history”。
+chmod：修改文件或者目录的权限，如 “chmod 777 file_name”。
+df：查看磁盘空间的使用情况，如 “df -h”。
+以上只是 Shell 命令中的一些常用的操作，Bash Shell 还支持大量的其他命令和操作，可以通过 man 命令查看命令的 manual 手册来了解更多细节信息和使用方法。
+

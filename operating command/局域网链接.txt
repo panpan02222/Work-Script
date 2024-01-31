@@ -1,0 +1,4 @@
+win+r
+输入“mstsc”
+输入需要链接的主机ip
+查询win+r-->"cmd"-->"ipcomfig"
