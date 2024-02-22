@@ -94,6 +94,12 @@ class Quiz:
             self.check_buttons[i].pack(anchor='w')
         if self.types[self.current_question] == "选择题" and len(self.solutions[self.current_question]) > 1:
             self.label.config(text="【多选】" + self.questions[self.current_question], wraplength=400)
+        elif self.types[self.current_question] =='选择题' and len(self.solutions[self.current_question]) == 1:
+            self.label.config(text="【单选】" + self.questions[self.current_question], wraplength=400)
+        elif self.types[self.current_question] =='判断题' :
+            self.label.config(text="【判断】" + self.questions[self.current_question], wraplength=400)
+        elif self.types[self.current_question] =='填空题' :
+            self.label.config(text="【填空】" + self.questions[self.current_question], wraplength=400)
         else:
             self.label.config(text=self.questions[self.current_question], wraplength=400)
 
