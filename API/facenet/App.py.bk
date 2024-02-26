@@ -1,0 +1,183 @@
+#!/usr/bin/env python
+# -*- encoding: utf-8 -*-
+'''
+@File    :   app.py
+@Time    :   2024/02/26 10:22:01
+@Author  :   pan binghong 
+@Email   :   19909442097@163.com
+@description   :   
+'''
+
+import os
+import time
+import numpy as np
+from flask import Flask, request, jsonify
+from PIL import Image
+from io import BytesIO
+import requests
+import torch
+from facenet_pytorch import MTCNN, InceptionResnetV1
+import json
+
+app = Flask(__name__)
+
+# 加载MTCNN和InceptionResnetV1模型
+device = 'cuda' if torch.cuda.is_available() else 'cpu'
+mtcnn = MTCNN(keep_all=True, device=device)
+resnet = InceptionResnetV1(pretrained='vggface2').eval().to(device)
+
+# 存储人脸特征的字典
+features_dict = {}
+
+# 存储路径和文件夹数量上限
+storage_path = './Face data'
+max_folders = 50
+
+# 创建存储路径和检查文件夹数量
+if not os.path.exists(storage_path):
+    os.makedirs(storage_path)
+folder_count = len(os.listdir(storage_path))
+
+# 上传图片并保存人脸特征
+@app.route('/upload', methods=['POST'])
+def upload():
+    # if 'file' not in request.files:
+    #     return jsonify({'error': 'No file'}), 400
+    # file = request.files['file']
+    # if file.name == '':
+    #     return jsonify({'error':'No selected file'}), 400
+    # if file:
+    #     data = request.form.get('data')
+    #     print(data)
+    #     try:
+    #         json_data = json.loads(data)
+    #     except json.JSONDecodeError:
+    #         return jsonify({'error': 'Invalid Json data'}), 400
+    #     #提取json数据
+    #     name = json_data.get('Name')
+    #     img_name = json_data.get('ImageName')
+    #     login = json_data.get('Login', False)
+        
+    #     #人脸识别(如果没有检测到脸就不用创建文件夹喽)
+    #     img_file = file.read()
+    #     img = Image.open(BytesIO(img_file))
+    #     x_aligned, prob = mtcnn(img, return_prob=True)
+    #     print("prob: ",prob)
+    #     if x_aligned is None:
+    #         return jsonify({'success': False, 'message': '图里没脸'}) # No face detected in the image
+
+    #     #新建人脸folder
+    #     folder_path = os.path.join(storage_path, name)
+    #     print(login)
+    #     if (login == True) and not os.path.exists(folder_path):
+    #         os.makedirs(folder_path)
+    #     elif (login == False) and not os.path.exists(folder_path):
+    #         return jsonify({'error': 'Gun ! ! !, 上传失败, 注册去吧'}), 400
+
+    #     #保存人脸数据
+    #     file_path = os.path.join(folder_path, str(img_name))
+    #     print(file_path)
+    #     file.save(file_path)
+        
+    #     # 新脸向量
+    #     print(x_aligned.shape)
+    #     x_aligned = x_aligned.to(device)
+    #     print(type(x_aligned))
+
+    #     embedding = resnet(x_aligned).detach().to(device)
+    #     # 新脸加入
+    #     features_dict[name] = embedding
+
+    #     folder_count = len(os.listdir(storage_path))
+    #     if folder_count > max_folders:
+    #         return jsonify({'success': True, 'message': f'脸太多了, 已经超过{max_folders} 个人了'})
+    
+    #     return jsonify({'success': True, 'message': 'Image uploaded successfully'})
+
+
+    data = request.json
+    imageURL = data.get('imageURL')
+    person_name = data.get('personName')
+    
+    response = requests.get(imageURL)
+    img = Image.open(BytesIO(response.content))
+
+    x_aligned, prob = mtcnn(img, return_prob=True)
+    if x_aligned is None:
+        return jsonify({'success': False, 'message': 'No face detected in the image'})
+
+    # 创建存储文件夹
+    print('aaaaaaaaaaaaaaaa')
+    print(type(storage_path))
+    print(type(person_name))
+    print(person_name)
+    print('bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb')
+    folder_path = os.path.join(storage_path, str(person_name))
+    print(folder_path)
+    print('ccccccccccccccccccccccccccccccc')
+    if not os.path.exists(folder_path):
+        os.makedirs(folder_path)
+
+    # 保存图片到文件夹
+    img_path = os.path.join(folder_path, f'{person_name}.jpg')
+    img.save(img_path)
+    x_aligned = x_aligned.to(device)
+    embedding = resnet(x_aligned).detach().to(device)
+    # embedding = resnet(x_aligned.unsqueeze(0).to(device)).detach().cpu().numpy().tolist()[0]
+
+    features_dict[person_name] = embedding
+
+    folder_count = len(os.listdir(storage_path))
+    if folder_count > max_folders:
+        return jsonify({'success': True, 'message': 'Image uploaded successfully', 
+                        'folder_count': folder_count, 'max_folders': max_folders})
+    
+    return jsonify({'success': True, 'message': 'Image uploaded successfully'})
+
+# 比对图片并输出相似度、姓名和耗时
+@app.route('/recognize', methods=['POST'])
+def recognize():
+    print(features_dict)
+    data = request.json
+    imageURL = data.get('imageURL')
+
+    response = requests.get(imageURL)
+    img = Image.open(BytesIO(response.content))
+
+    start_time = time.time()
+
+    x_aligned, prob = mtcnn(img, return_prob=True)
+    if x_aligned is None:
+        return jsonify({'success': False, 'message': 'No face detected in the image'})
+    x_aligned = x_aligned.to(device)
+    embedding = resnet(x_aligned).detach().to(device)
+#    embedding = resnet(x_aligned.unsqueeze(0).to(device)).detach().cpu().numpy().tolist()[0]
+
+    min_dist = float('inf')
+    min_name = None
+    for name, saved_embedding in features_dict.items():
+        print('name')
+
+        dist = np.linalg.norm(np.array(embedding.cpu()) - np.array(saved_embedding.cpu()))
+        print(dist)
+        if dist < min_dist:
+            min_dist = dist
+            min_name = name
+
+    end_time = time.time()
+    elapsed_time = end_time - start_time
+
+    similarity = 100 - (min_dist * 100)
+
+    result = {
+        'similarity': f'{similarity:.2f}%',
+        'name': min_name,
+        'elapsed_time': f'{elapsed_time:.2f}ms'
+    }
+
+    return jsonify({'success': True, 'result': result})
+
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port=18181, debug=True)
+
+

@@ -12,13 +12,15 @@ def print_metrics(tp, tn, fp, fn):
     # 计算误报率
     fall_out_rate = fp / (tp + fp)
 
+    new_= fp / (tp+fn)
+
     print("准确率：{:.4f}".format(accuracy))
     print("精确率：{:.4f}".format(precision))
     print("召回率：{:.4f}".format(recall))
     print("F1 值：{:.4f}".format(f1))
     print("漏报率：{:.4f}".format(miss_rate))
     print("误报率：{:.4f}".format(fall_out_rate))
-
+    print("漏检比: {:.4f}".format(new_))
 
 # 示例：
 print("输入TP：")

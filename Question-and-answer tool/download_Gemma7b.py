@@ -1,4 +1,5 @@
-# Use a pipeline as a high-level helper
-from transformers import pipeline
+# Load model directly
+from transformers import AutoTokenizer, AutoModelForCausalLM
 
-pipe = pipeline("text-generation", model="google/gemma-7b")
+tokenizer = AutoTokenizer.from_pretrained("google/gemma-7b")
+model = AutoModelForCausalLM.from_pretrained("google/gemma-7b")
