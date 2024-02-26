@@ -68,6 +68,8 @@ def upload():
     # embedding = resnet(x_aligned.unsqueeze(0).to(device)).detach().cpu().numpy().tolist()[0]
 
     features_dict[person_name] = embedding
+    with open('features_dict.pkl','wb') as f:
+        pickle.dump(features_dict, f)
 
     folder_count = len(os.listdir(storage_path))
     if folder_count > max_folders:
