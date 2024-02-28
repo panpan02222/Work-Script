@@ -5,7 +5,7 @@
 @Time    :   2024/02/28 11:59:09
 @Author  :   pan binghong 
 @Email   :   19909442097@163.com
-@description   :   
+@description   :   CPU运行gemma-7b调用代码
 '''
 
 # 模型地址 : https://huggingface.co/google/gemma-7b
