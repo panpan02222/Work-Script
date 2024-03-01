@@ -25,7 +25,11 @@ if __name__ == '__main__':
 )
     with st.sidebar:
         st.image("static/电科院.png",use_column_width=True)
+<<<<<<< HEAD
     app_list = []
+=======
+    app_list = ['']
+>>>>>>> 20eb749e6a5b74f34c3f681b128bbce0fec5e49a
     selected_app = st.sidebar.selectbox('选择知识库', app_list)
     
     # 增加切换app清空页面历史
@@ -36,9 +40,13 @@ if __name__ == '__main__':
 
     if selected_app == '首页':
         index()
-    elif selected_app == "大语言模型":
+    elif selected_app == "":
         chat_llm()
+<<<<<<< HEAD
     elif selected_app == "xxxx":
+=======
+    elif selected_app == "":
+>>>>>>> 20eb749e6a5b74f34c3f681b128bbce0fec5e49a
         chat_universal()
     else:
         chat_knowledge(selected_app)
