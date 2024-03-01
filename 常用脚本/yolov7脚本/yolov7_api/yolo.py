@@ -1,3 +1,13 @@
+#!/usr/bin/env python
+# -*- encoding: utf-8 -*-
+'''
+@File    :   yolo.py
+@Time    :   2024/03/01 22:24:32
+@Author  :   pan binghong 
+@Email   :   19909442097@163.com
+@description   :   配合yolo_api中的cherryPy接口使用
+'''
+
 import torch
 import cv2
 import numpy as np

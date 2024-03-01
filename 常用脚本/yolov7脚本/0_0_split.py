@@ -1,3 +1,13 @@
+#!/usr/bin/env python
+# -*- encoding: utf-8 -*-
+'''
+@File    :   0_0_split.py
+@Time    :   2024/03/01 22:21:48
+@Author  :   pan binghong 
+@Email   :   19909442097@163.com
+@description   :   切分tran, val
+'''
+
 # 将图片和标注数据按比例切分为 训练集和测试集
 # 直接划分txt文件jpg文件
 #### 强调！！！ 路径中不能出现中文，否则报错找不到文件

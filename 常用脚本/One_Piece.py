@@ -1,3 +1,13 @@
+#!/usr/bin/env python
+# -*- encoding: utf-8 -*-
+'''
+@File    :   One_Piece.py
+@Time    :   2024/03/01 22:34:54
+@Author  :   pan binghong 
+@Email   :   19909442097@163.com
+@description   :   One Piece！！！
+'''
+
 import os
 import xml.etree.ElementTree as ET
 import shutil
@@ -9,14 +19,12 @@ import tqdm
 from os import listdir, getcwd
 from os.path import join
 
-img_dir = r"H:\潘秉宏\重新标注样本\营销样本_1\JPEGImages"
-xml_dir = r"H:\潘秉宏\重新标注样本\营销样本_1\Annotations"
-best_xml_dir = r'C:\Users\Administrator\Desktop\雄安调度\Documents'
-best_img_dir = r'C:\Users\Administrator\Desktop\雄安调度\TXT'
+img_dir = r""
+xml_dir = r""
+best_xml_dir = r''
+best_img_dir = r''
 
-txt_path = r"C:\Users\Administrator\Desktop\jueyuanzi\txt"
-
-#/home/bml/storage/mnt/v-ywe1p54l2brsm9cj/org/dianbiao/VOCdevkit4/images
+txt_path = r""
 
 random.seed(7)
 images = "images"
@@ -27,7 +35,7 @@ best_images = "best_images"
 best_xml = "best_xml"
 
 #每次改这个路径
-src_path = r'C:\Users\Administrator\Desktop\雄安调度'
+src_path = r''
 
 # images_dir = os.path.join(src_path,images)
 # print(f'确认一下图片路径：{images_dir}')
@@ -68,17 +76,7 @@ else:
 
 # 需要转换的类别，需要和yaml文件一一对应
 classes = [
-    'xiangtixiushi',
-    'xiangtiposun',
-    'xiangtifahuang',
-    'wumen',
-    'wuxiang',
-    'youfeng',
-    'wufeng',
-    'youtoushichuanggai',
-    'wutoushichuanggai',
-    'youkaiguangai',
-    'wukaiguangai'
+
 ]
 
 # classes = [

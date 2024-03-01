@@ -1,3 +1,13 @@
+#!/usr/bin/env python
+# -*- encoding: utf-8 -*-
+'''
+@File    :   api_10010.py
+@Time    :   2024/03/01 22:20:33
+@Author  :   pan binghong 
+@Email   :   19909442097@163.com
+@description   :   使用cherryPY库生成Yolov7接口
+'''
+
 from skimage import io
 from PIL import Image
 import numpy as np

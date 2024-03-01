@@ -1,21 +1,27 @@
+
+#!/usr/bin/env python
+# -*- encoding: utf-8 -*-
+'''
+@File    :   0_计量表箱统计标签数量脚本.py
+@Time    :   2024/03/01 22:26:43
+@Author  :   pan binghong 
+@Email   :   19909442097@163.com
+@description   :   
+'''
+
 import os
 import xml.etree.ElementTree as ET
 
 # 定义要统计的文件夹路径
-# folder_path = "/home/pbh/yolov5-master/VOCdevkit/labels"
-# folder_path = r'H:\Pan_BingHong\重新标注样本\统计标签数量任务\保定'
-# folder_path = r'H:\Pan_BingHong\重新标注样本\统计标签数量任务\沧州'
-# folder_path = r'H:\Pan_BingHong\重新标注样本\统计标签数量任务\石家庄'
-# folder_path = r'H:\Pan_BingHong\重新标注样本\统计标签数量任务\衡水'
-# folder_path = r'H:\Pan_BingHong\重新标注样本\统计标签数量任务\邢台'
-# folder_path = r'H:\Pan_BingHong\重新标注样本\统计标签数量任务\邯郸'
-# folder_path = r'H:\Pan_BingHong\重新标注样本\统计标签数量任务\雄安'
+folder_path = "/home/pbh/yolov5-master/VOCdevkit/labels"
 
-city = ["保定","沧州","石家庄","衡水","邢台","邯郸","雄安"]
-
-names = ['xiangtifahuang','xiangtixiushi','xiangtiposun','wumen','wuxiang','youfeng','wufeng','youkaiguangai','wukaiguangai','youtoushichuanggai','wutoushichuanggai']
+# 这里放置子文件夹名称
+city = []
+# 这里放置标签名称
+names = []
 
 def cout_labels(city_name):
+    # 这里放置你的文件夹名称
     path1 = "H:\\潘秉宏\\重新标注样本\\统计标签数量任务"
     folder_path = path1 + '\\' + city_name
     # 定义一个字典来存储object的name出现的次数
@@ -53,8 +59,7 @@ def cout_labels(city_name):
 
 if __name__ == '__main__':
     while 1:
-        #city = ["保定"，'沧州','石家庄','衡水','邢台','邯郸','雄安']
-        city_name = input('请输入要查询的城市名称:')
+        city_name = input('请输入要查询的子文件夹名称:')
         if city_name not in city:
             print('检查你输入的城市名称！！！')
         else:

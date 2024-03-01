@@ -1,3 +1,13 @@
+#!/usr/bin/env python
+# -*- encoding: utf-8 -*-
+'''
+@File    :   test03.py
+@Time    :   2024/03/01 22:20:04
+@Author  :   pan binghong 
+@Email   :   19909442097@163.com
+@description   :   
+'''
+
 import os
 import shutil
 import xml.etree.ElementTree as ET
@@ -16,7 +26,7 @@ def del_inxml_noobj_file(src_folder,dst_folder):
                 shutil.move(xml_path,dst_path)
                 print(f'Moved {filename} to {dst_folder}')
 
-src_folder = r'H:\潘秉宏\重新标注样本\待上传样本库样本_12-18_(7-3至8-4)'
-dst_folder = r'H:\潘秉宏\重新标注样本\待上传样本库样本_12-18_(7-3至8-4)\xmls'
+src_folder = r''
+dst_folder = r''
 
 del_inxml_noobj_file(src_folder,dst_folder)

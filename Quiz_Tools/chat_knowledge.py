@@ -15,13 +15,7 @@ def chat_knowledge(knowledge_base_name):
         st.session_state['history'] = []
     # 根据选择的app来切换不同的知识库
     app_to_kb_name = {
-        "财务税政" : "caiwu",
-        "安全规程" : "angui",
-        "通用规章制度" : "zhidu",
-        "雄安调度专业" : "diaodu",
-        "保定调度专业" : "baoding_diaodu",
-        "电力行业主设备检修" : "shebei",
-        "营销2.0系统使用手册" : "营销"
+
     }
 
 

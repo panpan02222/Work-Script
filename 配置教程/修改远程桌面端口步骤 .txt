@@ -1,13 +1,13 @@
 
-1. ×¢²á±í  ĞŞ¸Ä HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Terminal Server\WinStations\RDP-Tcp    PortNumberÎª49527
+1. æ³¨å†Œè¡¨  ä¿®æ”¹ HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Terminal Server\WinStations\RDP-Tcp    PortNumberä¸º49527
 
-2. windows·À»ğÇ½-¸ß¼¶ÉèÖÃ-ÈëÕ¾¹æ ¼ÓÉÏ49527¶Ë¿Ú
+2. windowsé˜²ç«å¢™-é«˜çº§è®¾ç½®-å…¥ç«™è§„ åŠ ä¸Š49527ç«¯å£
 
-3. ÎÒµÄµçÄÔ-¹ÜÀí-·şÎñºÍÓ¦ÓÃ³ÌĞò-·şÎñ  Æô¶¯Remote Desktop¿ªÍ·µÄ3»ò4¸ö·şÎñ
+3. æˆ‘çš„ç”µè„‘-ç®¡ç†-æœåŠ¡å’Œåº”ç”¨ç¨‹åº-æœåŠ¡  å¯åŠ¨Remote Desktopå¼€å¤´çš„3æˆ–4ä¸ªæœåŠ¡
 
-4. ÎÒµÄµçÄÔ-ÊôĞÔ-¸ß¼¶ÏµÍ³ÉèÖÃ-Ô¶³Ì  ¹´Ñ¡'ÔÊĞíÔËĞĞÈÎÒâ°æ±¾...'
+4. æˆ‘çš„ç”µè„‘-å±æ€§-é«˜çº§ç³»ç»Ÿè®¾ç½®-è¿œç¨‹  å‹¾é€‰'å…è®¸è¿è¡Œä»»æ„ç‰ˆæœ¬...'
 
-5. ÖØÆôµçÄÔ
+5. é‡å¯ç”µè„‘
 
 
 

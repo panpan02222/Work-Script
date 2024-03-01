@@ -1,3 +1,13 @@
+#!/usr/bin/env python
+# -*- encoding: utf-8 -*-
+'''
+@File    :   test02.py
+@Time    :   2024/03/01 22:19:47
+@Author  :   pan binghong 
+@Email   :   19909442097@163.com
+@description   :   
+'''
+
 import os
 import  shutil
 from tqdm import tqdm
@@ -28,7 +38,7 @@ def move_mismatched_files(src_folder,dst_img_folder,dst_xml_folder):
 
 
 
-src_folder = r'H:\潘秉宏\重新标注样本\待上传样本库样本_12-18_(7-3至8-4)'
-aaa = r'H:\潘秉宏\重新标注样本\待上传样本库样本_12-18_(7-3至8-4)\images'
-bbb = r'H:\潘秉宏\重新标注样本\待上传样本库样本_12-18_(7-3至8-4)\xmls'
+src_folder = r''
+aaa = r''
+bbb = r''
 move_mismatched_files(src_folder,aaa,bbb)

@@ -1,3 +1,13 @@
+#!/usr/bin/env python
+# -*- encoding: utf-8 -*-
+'''
+@File    :   resize_image_label.py
+@Time    :   2024/03/01 22:35:46
+@Author  :   pan binghong 
+@Email   :   19909442097@163.com
+@description   :   针对图片和标签进行Resize操作
+'''
+
 import os
 import cv2
 import xml.etree.ElementTree as ET

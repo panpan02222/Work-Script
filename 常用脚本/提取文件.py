@@ -1,3 +1,13 @@
+#!/usr/bin/env python
+# -*- encoding: utf-8 -*-
+'''
+@File    :   提取文件.py
+@Time    :   2024/03/01 22:32:15
+@Author  :   pan binghong 
+@Email   :   19909442097@163.com
+@description   :   
+'''
+
 import os
 import shutil
 
@@ -11,11 +21,8 @@ def move_files(source_folder,destination_folder):
             shutil.move(source_file,destination_file)
     print("finished")
 
-# source_folder = r"H:\潘秉宏\财税政策\税种"
-# destination_folder = r"H:\潘秉宏\财税政策\all_files"
-# move_files(source_folder,destination_folder)
-
-source_folder = r"H:\潘秉宏\财税政策\all_files"
+# 这里放置你的docx文件夹
+source_folder = r""
 from docx import Document
 def convert_docx_to_doc(source_folder):
     files = os.listdir(source_folder)

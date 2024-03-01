@@ -1,3 +1,13 @@
+#!/usr/bin/env python
+# -*- encoding: utf-8 -*-
+'''
+@File    :   1_voc_label.py
+@Time    :   2024/03/01 22:22:46
+@Author  :   pan binghong 
+@Email   :   19909442097@163.com
+@description   :   将切分后的tran, val进行格式转换(yolo格式)
+'''
+
 import xml.etree.ElementTree as ET
 import pickle
 import os

@@ -1,3 +1,13 @@
+#!/usr/bin/env python
+# -*- encoding: utf-8 -*-
+'''
+@File    :   find_and_moveout_the_match_xml_and_jpg.py
+@Time    :   2024/03/01 22:33:24
+@Author  :   pan binghong 
+@Email   :   19909442097@163.com
+@description   :   曹振给我的代码
+'''
+
 import shutil
 import os
 import tqdm

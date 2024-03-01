@@ -1,3 +1,14 @@
+#!/usr/bin/env python
+# -*- encoding: utf-8 -*-
+'''
+@File    :   批量修改图片尺寸.py
+@Time    :   2024/03/01 22:31:27
+@Author  :   pan binghong 
+@Email   :   19909442097@163.com
+@description   :   
+'''
+
+
 from PIL import image
 import os.path
 import glob

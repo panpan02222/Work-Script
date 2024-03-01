@@ -16,17 +16,7 @@ import warnings
 warnings.filterwarnings("ignore")
 
 classes =         [
-        "050111",
-        "051512",
-        "050113",
-        "051501",
-        "050101",
-        "youfeng",
-        "050301",
-        "youkaiguangai",
-        "051503",
-        "youtoushichuanggai",
-        "051601"
+
         ]
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")

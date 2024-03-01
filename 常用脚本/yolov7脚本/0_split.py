@@ -1,3 +1,13 @@
+#!/usr/bin/env python
+# -*- encoding: utf-8 -*-
+'''
+@File    :   0_split.py
+@Time    :   2024/03/01 22:22:23
+@Author  :   pan binghong 
+@Email   :   19909442097@163.com
+@description   :   
+'''
+
 import os
 import random
 
