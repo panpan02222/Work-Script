@@ -168,3 +168,25 @@
     - **限制参数长度：** 在设计时考虑URL长度的限制，避免传输大量数据。
 
   综合考虑这些因素，可以有效减少使用URL传输数据时的安全风险。
+
+- ### <b>\*arg</b> 和 <b>\*\*kwarg</b>区别？
+ ```
+    def hello_args(*args, **kwargs):
+      print(args)
+      print(kwargs)
+    
+    if __name__=='__main__':
+      hello('hi', 'hello', 'hey')
+      hello(a='hi', b='hello', c='hey')
+```
+
+  - 可以传入任意数量的参数;
+  - **args 采用直接传参的方式, 返回的结果是元组;
+  - *kwargs 采用赋值传参的方式, 返回的结果是字典
+  - 拓展同理, 可以用*, **进行传参
+```
+a = [1, 2, 3, 4]
+b = {'a':'1', 'b':'2', 'd':'4', 'c':'3'}
+myfunc1(*a)
+myfunc2(**b)
+```
