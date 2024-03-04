@@ -1,6 +1,18 @@
-nginx是著名的
+## Nginx的设计理念注重性能、并发性和可扩展性，使其成为处理高并发、大规模访问的理想服务器和代理工具。<br>
+
+-------------------------
+
+### 基础命令
+
+- 启动命令 `sudo nginx`</br>
+- 关闭命令 `sudo nginx -s stop`</br>
+- 重启加载 `sudo ngingx -s reload`</br>
+- 查看进程 `ps aux | grep nginx`</br>
+- 查看状态 `sudo nginx -t`</br>
 
 
+
+```
 #user  nobody;
 
 events {
@@ -37,3 +49,4 @@ http {
 	}
 
 }
+```
