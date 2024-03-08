@@ -209,3 +209,17 @@ myfunc2(**b)
   - 多线程程序可以更有效地利用多核处理器，因为线程可以并行执行。
 
   总体来说，线程是更轻量级的执行单元，用于提高程序的并发性，而进程更为独立，用于实现更高层次的隔离和安全性。在实际应用中，程序员需要根据应用的需求选择适当的多任务模型。
+
+- ## 大模型的训练方式
+
+1. SFT(Supervised Fine-Tuning)监督微调
+   1. 1
+   - 是指在源数据集上预训练一个神经网络模型, 然后创建一个新的神经网络模型。 目标模型复制源模型上除了输出层外所有的模型设计以及参数。 微调时, 为目标模型添加一个输出大小为目标数据集类别个数的输出层, 并随机初始化该层的模型参数。在目标数据集上训练目标模型时, 将从头训练到输出层, 其余层的参数都基于源模型的参数微调得到。
+  1. 2
+
+
+wget https://dev.mysql.com/get/Downloads/MySQL-5.7/mysql-server_5.7.31-1ubuntu18.04_amd64.deb-bundle.tar
+tar -xvf mysql-server_5.7.31-1ubuntu18.04_amd64.deb-bundle.tar
+rm -f mysql-testsuite_5.7.31-1ubuntu18.04_amd64.deb
+rm -f mysql-community-test_5.7.30-1ubuntu18.04_amd64.deb
+ 
