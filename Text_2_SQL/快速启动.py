@@ -1,3 +1,13 @@
+#!/usr/bin/env python
+# -*- encoding: utf-8 -*-
+'''
+@File    :   快速启动.py
+@Time    :   2024/03/18 15:48:21
+@Author  :   pan binghong 
+@Email   :   19909442097@163.com
+@description   :   
+'''
+
 import os
 from langchain_community.utilities import SQLDatabase
 import mysql.connector
