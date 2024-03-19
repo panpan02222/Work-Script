@@ -10,6 +10,9 @@
 ### Calculate_Img_Similarity
 - 计算图片相似度, 并去重的脚步, 工作中保留的代码
 
+### ChatWps
+- WPS加载项开发之调用大模型进行辅助写作
+
 ### data pre processing
 - 文本提取代码
 
