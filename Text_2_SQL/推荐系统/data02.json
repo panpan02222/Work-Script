@@ -1,0 +1,32 @@
+{
+    "AI101": {
+        "1": {
+            "text": "Artificial Intelligence (AI) has transformed industries and is poised to revolutionize our daily lives.",
+            "timestamps": [10, 50]
+        },
+        "2": {
+            "text": "This course introduces the fundamentals of AI, including machine learning, deep learning, and neural networks.",
+            "timestamps": [60, 120]
+        }
+    },
+    "DS202": {
+        "1": {
+            "text": "Data Science involves extracting knowledge from data, which is essential for decision making.",
+            "timestamps": [15, 45]
+        },
+        "2": {
+            "text": "You'll learn about the latest tools and techniques for data analysis and visualization in this course.",
+            "timestamps": [55, 95]
+        }
+    },
+    "PY303": {
+        "1": {
+            "text": "Python is a versatile language used for a wide range of applications, from web development to data analysis.",
+            "timestamps": [20, 40]
+        },
+        "2": {
+            "text": "This module dives deep into advanced Python topics, including asynchronous programming and decorators.",
+            "timestamps": [50, 90]
+        }
+    }
+}

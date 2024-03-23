@@ -1,0 +1,20 @@
+[
+    {
+        "TenantId": "tenant1",
+        "OrganizationId": "orgA",
+        "CourseId": "AI101",
+        "Summary": "Introduction to Artificial Intelligence, covering basic concepts and applications."
+    },
+    {
+        "TenantId": "tenant2",
+        "OrganizationId": "orgB",
+        "CourseId": "DS202",
+        "Summary": "Data Science in depth, focusing on data analysis, visualization, and machine learning."
+    },
+    {
+        "TenantId": "tenant1",
+        "OrganizationId": "orgA",
+        "CourseId": "PY303",
+        "Summary": "Advanced Python programming techniques, including data structures, algorithms, and web development."
+    }
+]
