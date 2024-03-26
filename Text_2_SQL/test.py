@@ -34,9 +34,9 @@ print(db.get_usable_table_names())
 # # 利用大模型和数据库进行chain
 chain = create_sql_query_chain(llm, db)
 
-while 1:
-    question = input("请输入你要查询的问题 : ")
-    response = chain.invoke({"question": question})
-    response
-    # 使用SQL进行查询
-    db.run(response)
+
+question = input("请输入你要查询的问题 : ")
+response = chain.invoke({"question": question})
+response
+# 使用SQL进行查询
+db.run(response)
