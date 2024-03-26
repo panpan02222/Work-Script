@@ -4,11 +4,11 @@
 ### 2.https://docs.llamaindex.ai/en/stable/|文档说明主页
 ### 3.langchain & llamaindex | 调研
 ### 4.阅读说明手册
-![image-20240326201113259](images\image-20240326201113259.png)
+![image-20240326201113259](Quiz_Tools/images/image-20240326201113259.png)
 
 ### 5.[BAAI/bge-large-zh-v1.5 · Hugging Face](https://huggingface.co/BAAI/bge-large-zh-v1.5) | Embedding模型下载链接
 
-### 6.![image-20240326201814951](images\image-20240326201814951.png)
+### 6.![image-20240326201814951](Quiz_Tools/images/image-20240326201814951.png)
 
 ### 7. [Ollama平台](https://github.com/ollama/ollama) | 大模型管理平台下载
 
