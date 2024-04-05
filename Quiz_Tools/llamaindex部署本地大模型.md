@@ -1,8 +1,11 @@
 ## Llamaindex + 部署本地大模型
 
 ### 1.https://github.com/run-llama/llama_index|github链接
+
 ### 2.https://docs.llamaindex.ai/en/stable/|文档说明主页
+
 ### 3.langchain & llamaindex | 调研
+
 ### 4.阅读说明手册
 ![image-20240326201113259](images\image-20240326201113259.png)
 
