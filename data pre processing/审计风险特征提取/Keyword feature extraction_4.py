@@ -2,7 +2,7 @@
 # -*- encoding: utf-8 -*-
 '''
 @File    :   Keyword feature extraction_4.py
-@Time    :   2024/04/05 14:51:11
+@Time    :   2024/04/05 23:51:11
 @Author  :   pan binghong 
 @Email   :   19909442097@163.com
 @description   :   第三段需求代码实现
@@ -43,7 +43,7 @@ df = pd.read_excel(file_path, sheet_name='Sheet2')
   
 # 分词并统计消极词汇出现次数  
 for index, row in df.iterrows():  
-    description = row['拼接后的关键审计事项描述']  
+    description = row['关键审计事项描述']  
       
     # 分词  
     seg_list = jieba.cut(description, cut_all=False)  

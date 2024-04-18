@@ -29,7 +29,7 @@ has_negative_keyword_flags = []
   
 # 遍历Sheet2的每一行  
 for index, row in df.iterrows():  
-    description = row['拼接后的关键审计事项描述']  
+    description = row['关键审计事项描述']  
       
     # 检查描述中是否包含关键词列表中的任意一个词  
     if any(keyword in description for keyword in keywords):  
@@ -39,7 +39,7 @@ for index, row in df.iterrows():
       
     # 将标记添加到列表中  
     has_negative_keyword_flags.append(has_negative_keyword)  
-  
+
 # 将是否有负面关键字的标记添加到DataFrame中  
 df['是否有负面关键字'] = has_negative_keyword_flags  
   

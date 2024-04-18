@@ -26,7 +26,7 @@ risk_disclosure_levels = []
   
 # 遍历Sheet2的每一行  
 for index, row in df.iterrows():  
-    description = row['拼接后的关键审计事项描述']  
+    description = row['关键审计事项描述']  
       
     # 找出所有的"风险"和"重大"关键字  
     keywords = re.findall(r'风险|重大', description)  
@@ -60,5 +60,5 @@ df['风险信息披露程度'] = risk_disclosure_levels
 # 将更新后的DataFrame写回到Sheet2中  
 with pd.ExcelWriter(file_path, mode='a', engine='openpyxl') as writer:  
     df.to_excel(writer, sheet_name='Sheet2', index=False)  
-  
+
 print("处理完成，风险信息披露程度已添加到Sheet2。")
