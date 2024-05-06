@@ -11,9 +11,9 @@
 import pandas as pd  
 
 # 原始文件路径 | 按自己的文件位置进行修改
-file_path = r'C:\Users\24529\Desktop\审计关键字提取\FIN_AuditDetail1.xlsx'
-jianliti_zhongwen_dict = r'C:\Users\24529\Desktop\审计关键字提取\NTUSD_negative_simplified.txt'
-hagongda_dict = r'C:\Users\24529\Desktop\审计关键字提取\stopwords_hit.txt'
+file_path = r'C:\Users\24529\Desktop\不是很专业的万事屋\审计关键字提取\FIN_AuditDetail1.xlsx'
+jianliti_zhongwen_dict = r'C:\Users\24529\Desktop\不是很专业的万事屋\审计关键字提取\Negative_word.txt'
+hagongda_dict = r'C:\Users\24529\Desktop\不是很专业的万事屋\审计关键字提取\stopwords_hit.txt'
 
 # 文件下载链接: 
 # https://github.com/ppzhenghua/SentimentAnalysisDictionary/tree/main
@@ -39,7 +39,7 @@ stop_words = load_dictionary(hagongda_dict)  # 替换为您的停用词表路径
 negative_tone_percentages = []  
 
 # 读取Excel文件  
-df = pd.read_excel(file_path, sheet_name='Sheet2')  
+df = pd.read_excel(file_path, sheet_name='Sheet1')  
   
 # 分词并统计消极词汇出现次数  
 for index, row in df.iterrows():  
