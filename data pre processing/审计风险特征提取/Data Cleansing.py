@@ -51,6 +51,8 @@ Bndinfo = Bndinfo[Bndinfo['max'] == Bndinfo['rand']]
 Bndinfo = Bndinfo.drop(['max', 'rand'], axis=1)
 Bndinfo['债券代码'] = Bndinfo['债券代码'].astype(str)
 
+print(Bndinfo)
+
 # 提取 "Term" 列
 Term = Bndinfo[['年份','期限']]
 # 删除重复观测值
@@ -108,17 +110,24 @@ df = df[df['年份']>=2010]
 
 ### <b>债券信用利差计算</b>
 #  截尾操作
+## 年收盘日到期收益率(%),交易市场代码
 df['YTM_1'] = df['年收盘日到期收益率(%)'].clip(lower=np.percentile(df['年收盘日到期收益率(%)'], 1))
 # 替换小于等于0的值为缺失值
 df.loc[df['YTM_1'] <= 0, 'YTM_1'] = np.nan
 # 计算每个组的均值
+# 为数据框中的YTM_2列添加每个债券代码对应的YTM_1列的平均值
 df['YTM_2'] = df.groupby('债券代码')['YTM_1'].transform('mean')
+
+# 为数据框中的YTM_3列添加每个市场代码对应的YTM_2列的平均值
 df['YTM_3'] = df.groupby('市场代码')['YTM_2'].transform('mean')
+
+# 为数据框中的YTM_4列添加每个年份对应的YTM_3列的平均值
 df['YTM_4'] = df.groupby('年份')['YTM_3'].transform('mean')
 # 创建新变量并填充缺失值
 df['YTM'] = np.nan
 for x in range(1, 5):
     df.loc[df['YTM'].isnull(), 'YTM'] = df[f'YTM_{x}']
+print(df['YTM'])
 df = df[['债券代码','年份','债券简称','市场代码','期限','YTM']]
 # 合并国债收益率插值结果
 df = pd.merge(df, Term, on=['期限','年份'], how='left', sort=True)
@@ -127,5 +136,5 @@ df['CS'] = df['YTM'] - df['Treasury']
 # 负值和零值处理（组内最小值填充）
 df.loc[df['CS'] <= 0, 'CS'] = np.nan
 df['CS'] = df.groupby('年份')['CS'].transform(lambda x: x.fillna(x.min()))
-
+print(df['CS'])
 print('债券信用利差计算完成！')
